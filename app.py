@@ -262,12 +262,8 @@ if 'current_admin_page' not in st.session_state:
 # Ensure only one app instance is initialized
 if not firebase_admin._apps:
     try:
-        # Load the Firebase service account key from Streamlit secrets
+        # Load the Firebase service account key as a dictionary directly from Streamlit secrets
         firebase_service_account_info = st.secrets["SERVICE_ACCOUNT_KEY"]
-
-        # Ensure private_key is correctly formatted with actual newlines
-        if isinstance(firebase_service_account_info, dict) and "private_key" in firebase_service_account_info:
-            firebase_service_account_info["private_key"] = firebase_service_account_info["private_key"].replace('\\n', '\n')
 
         cred = credentials.Certificate(firebase_service_account_info)
         firebase_admin.initialize_app(cred) # Use firebase_admin.initialize_app
@@ -275,13 +271,13 @@ if not firebase_admin._apps:
         st.success("Firebase initialized successfully.")
 
     except KeyError:
-        st.error("Firebase SERVICE_ACCOUNT_KEY not found in Streamlit secrets! "
-                 "Please add your Firebase service account JSON content to your app's secrets "
-                 "on Streamlit Community Cloud under the key 'SERVICE_ACCOUNT_KEY'.")
+        st.error("Firebase 'SERVICE_ACCOUNT_KEY' not found in Streamlit secrets! "
+                 "Please add your Firebase service account JSON content as a multi-line string "
+                 "to your app's secrets.toml under the key 'SERVICE_ACCOUNT_KEY'.")
         st.stop()
     except Exception as e:
         st.error(f"An unexpected error occurred during Firebase initialization: {e}")
-        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' is valid and correctly formatted.")
+        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' is valid and correctly formatted in secrets.toml.")
         st.stop()
 else:
     db = firestore.client()
@@ -289,12 +285,8 @@ else:
 # --- Google Drive Configuration ---
 drive_service = None
 try:
-    # Load the Google Drive key from Streamlit secrets
+    # Load the Google Drive key as a dictionary directly from Streamlit secrets
     google_drive_key_info = st.secrets["GOOGLE_DRIVE_KEY"]
-
-    # Ensure private_key is correctly formatted with actual newlines
-    if isinstance(google_drive_key_info, dict) and "private_key" in google_drive_key_info:
-        google_drive_key_info["private_key"] = google_drive_key_info["private_key"].replace('\\n', '\n')
 
     # Define the necessary scopes for Google Drive access
     SCOPES = ['https://www.googleapis.com/auth/drive'] # Scope for full Drive access
@@ -307,13 +299,13 @@ try:
     st.success("Google Drive API initialized successfully.")
 
 except KeyError:
-    st.error("Google Drive GOOGLE_DRIVE_KEY not found in Streamlit secrets! "
-             "Please add your Google Drive service account JSON content to your app's secrets "
-             "on Streamlit Community Cloud under the key 'GOOGLE_DRIVE_KEY'.")
+    st.error("Google Drive 'GOOGLE_DRIVE_KEY' not found in Streamlit secrets! "
+             "Please add your Google Drive service account JSON content as a multi-line string "
+             "to your app's secrets.toml under the key 'GOOGLE_DRIVE_KEY'.")
     st.stop()
 except Exception as e:
     st.error(f"An unexpected error occurred during Google Drive initialization: {e}")
-    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' is valid and Google Drive API is enabled.")
+    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' is valid and Google Drive API is enabled in secrets.toml.")
     st.stop()
 
 # --- OpenAI API Key Setup ---
