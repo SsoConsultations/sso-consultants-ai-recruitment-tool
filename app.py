@@ -265,6 +265,12 @@ if not firebase_admin._apps:
         # Load the Firebase service account key as a dictionary directly from Streamlit secrets
         firebase_service_account_info = st.secrets["SERVICE_ACCOUNT_KEY"]
 
+        # Explicitly replace '\n' with actual newline characters in the private_key
+        # This is crucial because Streamlit's TOML parser might preserve '\n' as literal escapes
+        # if the original JSON file had them, and firebase_admin expects actual newlines.
+        if isinstance(firebase_service_account_info, dict) and "private_key" in firebase_service_account_info:
+            firebase_service_account_info["private_key"] = firebase_service_account_info["private_key"].replace('\\n', '\n')
+
         cred = credentials.Certificate(firebase_service_account_info)
         firebase_admin.initialize_app(cred) # Use firebase_admin.initialize_app
         db = firestore.client()
@@ -287,6 +293,10 @@ drive_service = None
 try:
     # Load the Google Drive key as a dictionary directly from Streamlit secrets
     google_drive_key_info = st.secrets["GOOGLE_DRIVE_KEY"]
+
+    # Explicitly replace '\n' with actual newline characters in the private_key
+    if isinstance(google_drive_key_info, dict) and "private_key" in google_drive_key_info:
+        google_drive_key_info["private_key"] = google_drive_key_info["private_key"].replace('\\n', '\n')
 
     # Define the necessary scopes for Google Drive access
     SCOPES = ['https://www.googleapis.com/auth/drive'] # Scope for full Drive access
