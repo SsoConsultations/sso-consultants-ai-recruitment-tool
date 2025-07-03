@@ -264,7 +264,7 @@ TEMP_FIREBASE_SERVICE_ACCOUNT_INFO = {
   "type": "service_account",
   "project_id": "ai-jd-cv-tool-new",
   "private_key_id": "4378bfebfa6d14244e031343a4e704049cb5fddb",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDw/TS0a+EIirq\nsA8Emc8NGaIy06t9BT0wJKLysI8BlV+XY6r8oc6HsVqzeK9H0SjVcCT6jKI6rdLt\nDkLvjjsmpEi4WQWbmPugyEo1wVRd5XDruojVJOcLxOjFLYGNv7cHYpXt02O5PK/G\nbP5KCe8DKFkFqtmPuqLi+tl/S4rS5s3HFai10DH/x+jZfLtn9atRr557YUR1skSX\n+Y1QjgC8yaVVrBmByhZN5qLasHKZ6Kf+xygNJh2VrEwyySaDzjXE1/NtIDU9JfKf\nMUm/uiFSXBmjn9rYDaYPY+1qY2H2bSPeM0uCtuyucWkM22VbKU+1HsASa3vAN80/\nEEDSfDQfAgMBAAECggIAIAxO4p/Fh4XzwlWN3SzJisqk/9l2IV0/s0d0I53diMlU\nNlubLN4tCjrHGfV1CyFFzuHxM9EyZ7/NdYBtsHuiLwUbCzmLo6Q2TA/Yp5cy7BI5\nMRC/ANcYj0KDnBqt3a+X044t9EVfIH6RBL9oG7p86zvqOErMG22sPSi1fX43nPyM\nM9j0tcKm0p7XJsQF1IMU6Hem2dbQBfOW3v1BBGaz4lrCjwPisTBlXrVF1Kv2RJjd\nrOIGeNj2Dkk5v3iypWyXR4tFmocfHWrj2HP5x8e4fo03QT/xdFnvbruMu7Gyj5gc\nGLEgHM5MxO5QqfS+qts80rifUBvCBqgWohjlbxMC9QKBgQDomqwJ911MBiY8Ezo+\nXP1tWt824DmDfLnm2iCknZ8TPD/Y4HpShPGzFZ9nSJ0mbut35d3CRZihcY0hx2Zi\n6FNv1BK7CIxTYhbz7gWTDCPUPZcp6Ora7FbTziYcXQHvif3hQWBg1hhGK1wtyLC3\nEW1jhYQqha4kGR/i0n8Zq0B1fQKBgQDXdLks0JMSpO3lae8COMntB9dmehSDY50r\ngSZpwlAnIH/ip1syJqG1XJjZFCnRH9EaLGhfZH5HF9FcfsMuvFJHePj1qbDyDNL\nA9hfsMN3n2Z4vVjN2n4/iri9sv9AzUEVsfSVXXZhHGlKlBpgeqSvi1u/47P9W2VW\naQfpfEFSywKBgBg2cY4gB8AwK665OajgOSk2+mFV+easBxX2wssf9T0lWmgTBeit\\nGhPQPmWb82/av/wdG3ZrlDXKAizv+sJ0+Kp9Yu3BOAo9/bGqpz3lV51yQ9gC/N+J\\nFoi5vtHZBKiQrrLSAVxTLPew78l8l8SJjl4YMolNdwTu5HB0CvNLfRUcZpAoGBAIV3\\nwzZlxpXoIY7aPrsrnrr8/ox217pEvRo0GS2uuHppeYZpwfeflUotc3zqqaPUpNol\\n2NPnS8P7tXD5mMFcFRhsMb30PL5PiKbRrPoqMAwsbHgjI53x2f9W2fZ5qfHktIrS\\nAGfELa8ewIL4mBZoIxizxZRrZBZwxafvzHzxAi5dAoGBANLhsls9TR9K3Bozp3Ou\\nmxJheSqqVA4MDQsn/ZFIFWtlr5zVDU0kIYTmR80eLAQBGaJgH2ZDtG7bg0DF0JiD\\nMvc7bQWaxxRV/1pY1vKh0l7GJQBjyEaTnZ8MFaYkSPAUzBj5rlPlU3GL/fJdgSGb\\nfsAKbIWHs4ZlK9hTd16Gw3DW\\n-----END PRIVATE KEY-----\n"
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDw/TS0a+EIirq\\nsA8Emc8NGaIy06t9BT0wJKLysI8BlV+XY6r8oc6HsVqzeK9H0SjVcCT6jKI6rdLt\\nDkLvjjsmpEi4WQWbmPugyEo1wVRd5XDruojVJOcLxOjFLYGNv7cHYpXt02O5PK/G\\nbP5KCe8DKFkFqtmPuqLi+tl/S4rS5s3HFai10DH/x+jZfLtn9atRr557YUR1skSX\\n+Y1QjgC8yaVVrBmByhZN5qLasHKZ6Kf+xygNJh2VrEwyySaDzjXE1/NtIDU9JfKf\\nMUm/uiFSXBmjn9rYDaYPY+1qY2H2bSPeM0uCtuyucWkM22VbKU+1HsASa3vAN80/\\nEEDSfDQfAgMBAAECggIAIAxO4p/Fh4XzwlWN3SzJisqk/9l2IV0/s0d0I53diMlU\\nNlubLN4tCjrHGfV1CyFFzuHxM9EyZ7/NdYBtsHuiLwUbCzmLo6Q2TA/Yp5cy7BI5\\nMRC/ANcYj0KDnBqt3a+X044t9EVfIH6RBL9oG7p86zvqOErMG22sPSi1fX43nPyM\\nM9j0tcKm0p7XJsQF1IMU6Hem2dbQBfOW3v1BBGaz4lrCjwPisTBlXrVF1Kv2RJjd\\nrOIGeNj2Dkk5v3iypWyXR4tFmocfHWrj2HP5x8e4fo03QT/xdFnvbruMu7Gyj5gc\\nGLEgHM5MxO5QqfS+qts80rifUBvCBqgWohjlbxMC9QKBgQDomqwJ911MBiY8Ezo+\\nXP1tWt824DmDfLnm2iCknZ8TPD/Y4HpShPGzFZ9nSJ0mbut35d3CRZihcY0hx2Zi\\n6FNv1BK7CIxTYhbz7gWTDCPUPZcp6Ora7FbTziYcXQHvif3hQWBg1hhGK1wtyLC3\\nEW1jhYQqha4kGR/i0n8Zq0B1fQKBgQDXdLks0JMSpO3lae8COMntB9dmehSDY50r\\ngSZpwlAnIH/ip1syJqG1XJjZFCnRH9EaLGhfZH5HF9FcfsMuvFJHePj1qbDyDNL\\nA9hfsMN3n2Z4vVjN2n4/iri9sv9AzUEVsfSVXXZhHGlKlBpgeqSvi1u/47P9W2VW\\naQfpfEFSywKBgBg2cY4gB8AwK665OajgOSk2+mFV+easBxX2wssf9T0lWmgTBeit\\nGhPQPmWb82/av/wdG3ZrlDXKAizv+sJ0+Kp9Yu3BOAo9/bGqpz3lV51yQ9gC/N+J\\nFoi5vtHZBKiQrrLSAVxTLPew78l8l8SJjl4YMolNdwTu5HB0CvNLfRUcZpAoGBAIV3\\nwzZlxpXoIY7aPrsrnrr8/ox217pEvRo0GS2uuHppeYZpwfeflUotc3zqqaPUpNol\\n2NPnS8P7tXD5mMFcFRhsMb30PL5PiKbRrPoqMAwsbHgjI53x2f9W2fZ5qfHktIrS\\nAGfELa8ewIL4mBZoIxizxZRrZBZwxafvzHzxAi5dAoGBANLhsls9TR9K3Bozp3Ou\\nmxJheSqqVA4MDQsn/ZFIFWtlr5zVDU0kIYTmR80eLAQBGaJgH2ZDt7bg0DF0JiD\\nMvc7bQWaxxRV/1pY1vKh0l7GJQBjyEaTnZ8MFaYkSPAUzBj5rlPlU3GL/fJdgSGb\\nfsAKbIWHs4ZlK9hTd16Gw3DW\\n-----END PRIVATE KEY-----\n"
 }
 
 # Google Drive API Key
@@ -281,6 +281,15 @@ TEMP_OPENAI_API_KEY = "sk-proj-ouZA4JuztWfwCHzZWbhc8nAxrEFcEY4qaFNUXMR8BHSr5_HrG
 # Google Drive Reports Folder ID
 TEMP_GOOGLE_DRIVE_REPORTS_FOLDER_ID = "187pusW-uec4aTc-Icf-iOOy9JrwYUQgS"
 # --- END TEMPORARY HARDCODED SECRETS ---
+
+
+# --- DEBUGGING: Print the parsed JSON dictionaries ---
+st.write("--- DEBUGGING INFO ---")
+st.write("Parsed Firebase Service Account Info:")
+st.write(TEMP_FIREBASE_SERVICE_ACCOUNT_INFO)
+st.write("Parsed Google Drive Key Info:")
+st.write(TEMP_GOOGLE_DRIVE_KEY_INFO)
+st.write("--- END DEBUGGING INFO ---")
 
 
 # --- Session State Initialization ---
@@ -314,7 +323,7 @@ if not firebase_admin._apps:
     try:
         # Use the TEMPORARY hardcoded info for testing
         cred = credentials.Certificate(TEMP_FIREBASE_SERVICE_ACCOUNT_INFO)
-        initialize_app(cred)
+        firebase_admin.initialize_app(cred) # Use firebase_admin.initialize_app
         db = firestore.client()
         st.success("Firebase initialized successfully (using hardcoded keys for test).")
 
