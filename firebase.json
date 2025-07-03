@@ -1,0 +1,25 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "location": "asia-south1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": { // <-- Add this block
+    "rules": "storage.rules" // <-- This points to your storage security rules file
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8080
+    },
+    "auth": {
+      "port": 9099
+    },
+    "ui": {
+      "port": 4000
+    },
+    "storage": { // <-- Add this block inside "emulators"
+      "port": 9199
+    }
+  }
+}

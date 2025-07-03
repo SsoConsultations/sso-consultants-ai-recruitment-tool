@@ -1,0 +1,8 @@
+# .streamlit/config.toml
+[theme]
+base="light"
+primaryColor="#4CAF50" # Green for primary elements like buttons
+backgroundColor="#FFFFFF" # Pure white for general background
+secondaryBackgroundColor="#F8F9FA" # Light grey for secondary containers/forms
+textColor="#000000" # Pure black for text
+font="sans serif"
