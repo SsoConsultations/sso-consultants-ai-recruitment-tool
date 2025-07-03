@@ -62,11 +62,11 @@ st.markdown(
     }
     /* Headers */
     h1, h2, h3, h4, h5, h6 {
-        color: #FF8C00; /* Orange for headers */
+        color: #4CAF50; /* Green for headers from config.toml */
     }
     /* Buttons */
     .stButton>button {
-        background-color: #FF8C00; /* Orange background for buttons */
+        background-color: #4CAF50; /* Green background for buttons from config.toml */
         color: white; /* White text for buttons */
         border-radius: 5px;
         border: none;
@@ -86,11 +86,11 @@ st.markdown(
         word-break: break-word; /* Break words if necessary */
     }
     .stButton>button:hover {
-        background-color: #FFA500; /* Lighter orange on hover */
+        background-color: #66BB6A; /* Lighter green on hover */
     }
     /* Text Inputs, Text Areas, Select Boxes */
     .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div {
-        border: 1px solid #FF8C00; /* Orange border */
+        border: 1px solid #4CAF50; /* Green border */
         border-radius: 5px;
         padding: 8px;
         color: #000000; /* Black text */
@@ -103,7 +103,7 @@ st.markdown(
     /* Specific Streamlit components by data-testid */
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
         font-size:1.2rem;
-        color: #FF8C00; /* Orange tab headers */
+        color: #4CAF50; /* Green tab headers */
     }
     /* Centering content for specific pages */
     .main-content-centered {
@@ -262,26 +262,28 @@ if 'current_admin_page' not in st.session_state:
 # Ensure only one app instance is initialized
 if not firebase_admin._apps:
     try:
-        # Load the Firebase service account key from Streamlit secrets
-        firebase_service_account_info = json.loads(st.secrets["SERVICE_ACCOUNT_KEY"])
+        # Load the Firebase service account key as a dictionary directly from Streamlit secrets
+        firebase_service_account_info = st.secrets["SERVICE_ACCOUNT_KEY"]
+
+        # Explicitly replace '\n' with actual newline characters in the private_key
+        # This is crucial because Streamlit's TOML parser might preserve '\n' as literal escapes
+        # if the original JSON file had them, and firebase_admin expects actual newlines.
+        if isinstance(firebase_service_account_info, dict) and "private_key" in firebase_service_account_info:
+            firebase_service_account_info["private_key"] = firebase_service_account_info["private_key"].replace('\\n', '\n')
 
         cred = credentials.Certificate(firebase_service_account_info)
-        initialize_app(cred)
+        firebase_admin.initialize_app(cred) # Use firebase_admin.initialize_app
         db = firestore.client()
         st.success("Firebase initialized successfully.")
 
     except KeyError:
-        st.error("Firebase SERVICE_ACCOUNT_KEY not found in Streamlit secrets! "
-                 "Please add your Firebase service account JSON content to your app's secrets "
-                 "on Streamlit Community Cloud under the key 'SERVICE_ACCOUNT_KEY'.")
-        st.stop()
-    except json.JSONDecodeError:
-        st.error("Firebase SERVICE_ACCOUNT_KEY secret content is not valid JSON. "
-                 "Please check the formatting in Streamlit secrets (especially newlines in private_key).")
+        st.error("Firebase 'SERVICE_ACCOUNT_KEY' not found in Streamlit secrets! "
+                 "Please add your Firebase service account JSON content as a multi-line string "
+                 "to your app's secrets.toml under the key 'SERVICE_ACCOUNT_KEY'.")
         st.stop()
     except Exception as e:
         st.error(f"An unexpected error occurred during Firebase initialization: {e}")
-        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' secret is valid.")
+        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' is valid and correctly formatted in secrets.toml.")
         st.stop()
 else:
     db = firestore.client()
@@ -289,8 +291,12 @@ else:
 # --- Google Drive Configuration ---
 drive_service = None
 try:
-    # Load the Google Drive key from Streamlit secrets
-    google_drive_key_info = json.loads(st.secrets["GOOGLE_DRIVE_KEY"])
+    # Load the Google Drive key as a dictionary directly from Streamlit secrets
+    google_drive_key_info = st.secrets["GOOGLE_DRIVE_KEY"]
+
+    # Explicitly replace '\n' with actual newline characters in the private_key
+    if isinstance(google_drive_key_info, dict) and "private_key" in google_drive_key_info:
+        google_drive_key_info["private_key"] = google_drive_key_info["private_key"].replace('\\n', '\n')
 
     # Define the necessary scopes for Google Drive access
     SCOPES = ['https://www.googleapis.com/auth/drive'] # Scope for full Drive access
@@ -303,17 +309,13 @@ try:
     st.success("Google Drive API initialized successfully.")
 
 except KeyError:
-    st.error("Google Drive GOOGLE_DRIVE_KEY not found in Streamlit secrets! "
-             "Please add your Google Drive service account JSON content to your app's secrets "
-             "on Streamlit Community Cloud under the key 'GOOGLE_DRIVE_KEY'.")
-    st.stop()
-except json.JSONDecodeError:
-    st.error("Google Drive GOOGLE_DRIVE_KEY secret content is not valid JSON. "
-             "Please check the formatting in Streamlit secrets (especially newlines in private_key).")
+    st.error("Google Drive 'GOOGLE_DRIVE_KEY' not found in Streamlit secrets! "
+             "Please add your Google Drive service account JSON content as a multi-line string "
+             "to your app's secrets.toml under the key 'GOOGLE_DRIVE_KEY'.")
     st.stop()
 except Exception as e:
     st.error(f"An unexpected error occurred during Google Drive initialization: {e}")
-    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' secret is valid and Google Drive API is enabled.")
+    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' is valid and Google Drive API is enabled in secrets.toml.")
     st.stop()
 
 # --- OpenAI API Key Setup ---
@@ -903,7 +905,7 @@ st.markdown(
         left: 0;
         width: 100%;
         text-align: center;
-        color: #FF8C00 !important; /* Orange text for footer - IMPORTANT for visibility */
+        color: #4CAF50 !important; /* Green text for footer */
         padding: 10px;
         background-color: #FFFFFF; /* Match page background */
         font-size: 0.8em;
