@@ -258,51 +258,90 @@ if 'current_admin_page' not in st.session_state:
     st.session_state['current_admin_page'] = 'reports'
 
 
-# --- Firebase Initialization (Modified for Local Emulators) ---
+# --- Firebase Initialization ---
 # Ensure only one app instance is initialized
 if not firebase_admin._apps:
-    os.environ["FIREBASE_AUTH_EMULATOR_HOST"] = "localhost:9099"
-    os.environ["FIRESTORE_EMULATOR_HOST"] = "localhost:8080"
-    
     try:
-        # Load Firebase service account from the dedicated JSON file
-        cred = credentials.Certificate("service-account.json") 
-        firebase_admin.initialize_app(cred)
+        # Load the Firebase service account key from Streamlit secrets
+        firebase_service_account_info = json.loads(st.secrets["SERVICE_ACCOUNT_KEY"])
+
+        cred = credentials.Certificate(firebase_service_account_info)
+        initialize_app(cred)
         db = firestore.client()
-        st.success("Firebase initialized successfully (using local Emulators).")
-    except FileNotFoundError:
-        st.error("Firebase 'service-account.json' not found. Please ensure it's in the project root and valid.")
+        st.success("Firebase initialized successfully.")
+
+    except KeyError:
+        st.error("Firebase SERVICE_ACCOUNT_KEY not found in Streamlit secrets! "
+                 "Please add your Firebase service account JSON content to your app's secrets "
+                 "on Streamlit Community Cloud under the key 'SERVICE_ACCOUNT_KEY'.")
+        st.stop()
+    except json.JSONDecodeError:
+        st.error("Firebase SERVICE_ACCOUNT_KEY secret content is not valid JSON. "
+                 "Please check the formatting in Streamlit secrets (especially newlines in private_key).")
         st.stop()
     except Exception as e:
-        st.error(f"Error initializing Firebase: {e}")
-        st.info("Please ensure your 'service-account.json' is valid and your Firebase emulators are running or configured correctly.")
+        st.error(f"An unexpected error occurred during Firebase initialization: {e}")
+        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' secret is valid.")
         st.stop()
 else:
     db = firestore.client()
 
 # --- Google Drive Configuration ---
-# Path to your Google Drive Service Account JSON key
-GOOGLE_DRIVE_SERVICE_ACCOUNT_FILE = "google-drive-service-account.json"
-# ID of the Google Drive folder where reports will be saved.
-# YOU MUST REPLACE THIS WITH YOUR ACTUAL GOOGLE DRIVE FOLDER ID.
-GOOGLE_DRIVE_REPORTS_FOLDER_ID = "YOUR_GOOGLE_DRIVE_FOLDER_ID_HERE" 
-
 drive_service = None
 try:
-    # Load credentials from service account file
-    drive_credentials = service_account.Credentials.from_service_account_file(
-        GOOGLE_DRIVE_SERVICE_ACCOUNT_FILE,
-        scopes=['https://www.googleapis.com/auth/drive'] # Scope for full Drive access
-    )
-    # Build the Drive service
+    # Load the Google Drive key from Streamlit secrets
+    google_drive_key_info = json.loads(st.secrets["GOOGLE_DRIVE_KEY"])
+
+    # Define the necessary scopes for Google Drive access
+    SCOPES = ['https://www.googleapis.com/auth/drive'] # Scope for full Drive access
+
+    # Create credentials from the service account info
+    drive_credentials = service_account.Credentials.from_service_account_info(google_drive_key_info, scopes=SCOPES)
+
+    # Build the Google Drive API service client
     drive_service = build('drive', 'v3', credentials=drive_credentials)
     st.success("Google Drive API initialized successfully.")
-except FileNotFoundError:
-    st.error(f"Google Drive service account file '{GOOGLE_DRIVE_SERVICE_ACCOUNT_FILE}' not found. Please ensure it's in the project root.")
+
+except KeyError:
+    st.error("Google Drive GOOGLE_DRIVE_KEY not found in Streamlit secrets! "
+             "Please add your Google Drive service account JSON content to your app's secrets "
+             "on Streamlit Community Cloud under the key 'GOOGLE_DRIVE_KEY'.")
+    st.stop()
+except json.JSONDecodeError:
+    st.error("Google Drive GOOGLE_DRIVE_KEY secret content is not valid JSON. "
+             "Please check the formatting in Streamlit secrets (especially newlines in private_key).")
     st.stop()
 except Exception as e:
-    st.error(f"Error initializing Google Drive API: {e}")
-    st.info("Please ensure your Google Drive API is enabled and the service account file is valid.")
+    st.error(f"An unexpected error occurred during Google Drive initialization: {e}")
+    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' secret is valid and Google Drive API is enabled.")
+    st.stop()
+
+# --- OpenAI API Key Setup ---
+openai_client = None
+try:
+    # Load the OpenAI API key from Streamlit secrets
+    openai_api_key = st.secrets["OPENAI_API_KEY"]
+    # Initialize the OpenAI client with the loaded API key
+    openai_client = OpenAI(api_key=openai_api_key)
+    st.success("OpenAI API key loaded successfully!")
+
+except KeyError:
+    st.error("OPENAI_API_KEY not found in Streamlit secrets! "
+             "Please add your OpenAI API key to your app's secrets "
+             "on Streamlit Community Cloud under the key 'OPENAI_API_KEY'.")
+    st.stop()
+except Exception as e:
+    st.error(f"An unexpected error occurred during OpenAI API key setup: {e}")
+    st.stop()
+
+# --- Google Drive Reports Folder ID (from secrets) ---
+GOOGLE_DRIVE_REPORTS_FOLDER_ID = None
+try:
+    GOOGLE_DRIVE_REPORTS_FOLDER_ID = st.secrets["GOOGLE_DRIVE_REPORTS_FOLDER_ID"]
+except KeyError:
+    st.error("GOOGLE_DRIVE_REPORTS_FOLDER_ID not found in Streamlit secrets! "
+             "Please add the ID of your Google Drive reports folder to your app's secrets "
+             "on Streamlit Community Cloud under the key 'GOOGLE_DRIVE_REPORTS_FOLDER_ID'.")
     st.stop()
 
 
@@ -425,21 +464,24 @@ def get_docx_text(file):
 
 # --- OpenAI/AI Functions ---
 def get_openai_response(prompt_text):
-    openai_api_key = st.secrets["OPENAI_API_KEY"] # Fetch API key from Streamlit secrets
-    client = OpenAI(api_key=openai_api_key)
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o", # Using a powerful model
-            messages=[
-                {"role": "system", "content": "You are a helpful AI assistant specialized in analyzing Job Descriptions and CVs. Provide concise, direct, and actionable insights. Be professional and objective."},
-                {"role": "user", "content": prompt_text}
-            ],
-            temperature=0.7 # Adjust creativity
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        st.error(f"Error calling OpenAI API: {e}. Please check your API key and network connection.")
-        return "Error: Could not get response from AI."
+    # Use the globally initialized openai_client
+    if openai_client:
+        try:
+            response = openai_client.chat.completions.create(
+                model="gpt-4o", # Using a powerful model
+                messages=[
+                    {"role": "system", "content": "You are a helpful AI assistant specialized in analyzing Job Descriptions and CVs. Provide concise, direct, and actionable insights. Be professional and objective."},
+                    {"role": "user", "content": prompt_text}
+                ],
+                temperature=0.7 # Adjust creativity
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            st.error(f"Error calling OpenAI API: {e}. Please check your API key and network connection.")
+            return "Error: Could not get response from AI."
+    else:
+        st.error("OpenAI client not initialized. Cannot generate AI response.")
+        return "Error: OpenAI client not available."
 
 
 # --- Report Generation Function ---
@@ -598,8 +640,8 @@ def generate_comparative_report_page():
                 report_full_filename = f"JD_CV_Analysis_Report_{timestamp}.docx"
 
 
-                # --- Save report to Google Drive and Firestore (NEW) ---
-                if drive_service:
+                # --- Save report to Google Drive and Firestore ---
+                if drive_service and GOOGLE_DRIVE_REPORTS_FOLDER_ID:
                     try:
                         file_metadata = {
                             'name': report_full_filename,
@@ -641,7 +683,7 @@ def generate_comparative_report_page():
                         st.error(f"Error saving report to Google Drive: {e}")
                         st.warning("Report was generated but could not be saved to Google Drive. You can still download it locally.")
                 else:
-                    st.warning("Google Drive service not initialized. Report not saved to cloud.")
+                    st.warning("Google Drive service not initialized or folder ID missing. Report not saved to cloud.")
 
                 # Always provide local download option
                 st.download_button(
@@ -708,11 +750,14 @@ def show_all_reports_page():
     st.subheader("All Generated Reports")
     
     # Provide a direct link to the Google Drive reports folder
-    st.markdown(
-        f"**All generated reports are stored in the following Google Drive folder:** "
-        f"[View Reports Folder]({f'https://drive.google.com/drive/drive/folders/{GOOGLE_DRIVE_REPORTS_FOLDER_ID}'})",
-        unsafe_allow_html=True
-    )
+    if GOOGLE_DRIVE_REPORTS_FOLDER_ID:
+        st.markdown(
+            f"**All generated reports are stored in the following Google Drive folder:** "
+            f"[View Reports Folder]({f'https://drive.google.com/drive/folders/{GOOGLE_DRIVE_REPORTS_FOLDER_ID}'})",
+            unsafe_allow_html=True
+        )
+    else:
+        st.warning("Google Drive Reports Folder ID is not configured in secrets.")
     st.write("---") # Separator
 
     reports_ref = db.collection('reports').order_by('date_generated', direction=firestore.Query.DESCENDING).stream()
@@ -799,7 +844,7 @@ def main():
                             
                         except exceptions.FirebaseError as e:
                             st.error(f"Error updating account in Firebase: {e}")
-                            st.info("Please ensure your Firebase emulators (Auth, Firestore) are running and accessible.")
+                            st.info("Please ensure your Firebase setup is correct.")
                         except Exception as e:
                             st.error(f"An unexpected error occurred during account setup: {e}")
             return # Stop execution here until account details are set and user logs out
