@@ -62,11 +62,11 @@ st.markdown(
     }
     /* Headers */
     h1, h2, h3, h4, h5, h6 {
-        color: #FF8C00; /* Orange for headers */
+        color: #4CAF50; /* Green for headers from config.toml */
     }
     /* Buttons */
     .stButton>button {
-        background-color: #FF8C00; /* Orange background for buttons */
+        background-color: #4CAF50; /* Green background for buttons from config.toml */
         color: white; /* White text for buttons */
         border-radius: 5px;
         border: none;
@@ -86,11 +86,11 @@ st.markdown(
         word-break: break-word; /* Break words if necessary */
     }
     .stButton>button:hover {
-        background-color: #FFA500; /* Lighter orange on hover */
+        background-color: #66BB6A; /* Lighter green on hover */
     }
     /* Text Inputs, Text Areas, Select Boxes */
     .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div {
-        border: 1px solid #FF8C00; /* Orange border */
+        border: 1px solid #4CAF50; /* Green border */
         border-radius: 5px;
         padding: 8px;
         color: #000000; /* Black text */
@@ -103,7 +103,7 @@ st.markdown(
     /* Specific Streamlit components by data-testid */
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
         font-size:1.2rem;
-        color: #FF8C00; /* Orange tab headers */
+        color: #4CAF50; /* Green tab headers */
     }
     /* Centering content for specific pages */
     .main-content-centered {
@@ -258,30 +258,69 @@ if 'current_admin_page' not in st.session_state:
     st.session_state['current_admin_page'] = 'reports'
 
 
+# --- TEMPORARY HARDCODED SECRETS (FOR TESTING ONLY - REMOVE AFTER TEST!) ---
+# Firebase Service Account Key
+TEMP_FIREBASE_SERVICE_ACCOUNT_INFO = {
+  "type": "service_account",
+  "project_id": "ai-jd-cv-tool-new",
+  "private_key_id": "4378bfebfa6d14244e031343a4e704049cb5fddb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDw/TS0a+EIirq\nsA8Emc8NGaIy06t9BT0wJKLysI8BlV+XY6r8oc6HsVqzeK9H0SjVcCT6jKI6rdLt\nDkLvjjsmpEi4WQWbmPugyEo1wVRd5XDruojVJOcLxOjFLYGNv7cHYpXt02O5PK/G\nbP5KCe8DKFkFqtmPuqLi+tl/S4rS5s3HFai10DH/x+jZfLtn9atRr557YUR1skSX\n+Y1QjgC8yaVVrBmByhZN5qLasHKZ6Kf+xygNJh2VrEwyySaDzjXE1/NtIDU9JfKf\nMUm/uiFSXBmjn9rYDaYPY+1qY2H2bSPeM0uCtuyucWkM22VbKU+1HsASa3vAN80/\nEEDSfDQfAgMBAAECggIAIAxO4p/Fh4XzwlWN3SzJisqk/9l2IV0/s0d0I53diMlU\nNlubLN4tCjrHGfV1CyFFzuHxM9EyZ7/NdYBtsHuiLwUbCzmLo6Q2TA/Yp5cy7BI5\nMRC/ANcYj0KDnBqt3a+X044t9EVfIH6RBL9oG7p86zvqOErMG22sPSi1fX43nPyM\nM9j0tcKm0p7XJsQF1IMU6Hem2dbQBfOW3v1BBGaz4lrCjwPisTBlXrVF1Kv2RJjd\nrOIGeNj2Dkk5v3iypWyXR4tFmocfHWrj2HP5x8e4fo03QT/xdFnvbruMu7Gyj5gc\nGLEgHM5MxO5QqfS+qts80rifUBvCBqgWohjlbxMC9QKBgQDomqwJ911MBiY8Ezo+\nXP1tWt824DmDfLnm2iCknZ8TPD/Y4HpShPGzFZ9nSJ0mbut35d3CRZihcY0hx2Zi\n6FNv1BK7CIxTYhbz7gWTDCPUPZcp6Ora7FbTziYcXQHvif3hQWBg1hhGK1wtyLC3\nEW1jhYQqha4kGR/i0n8Zq0B1fQKBgQDXdLks0JMSpO3lae8COMntB9dmehSDY50r\ngSZpwlAnIH/ip1syJqG1XJjZFCnRH9EaLGhfZH5HF9FcfsMuvFJHePj1qbDyDNL\nA9hfsMN3n2Z4vVjN2n4/iri9sv9AzUEVsfSVXXZhHGlKlBpgeqSvi1u/47P9W2VW\naQfpfEFSywKBgBg2cY4gB8AwK665OajgOSk2+mFV+easBxX2wssf9T0lWmgTBeit\\nGhPQPmWb82/av/wdG3ZrlDXKAizv+sJ0+Kp9Yu3BOAo9/bGqpz3lV51yQ9gC/N+J\\nFoi5vtHZBKiQrrLSAVxTLPew78l8l8SJjl4YMolNdwTu5HB0CvNLfRUcZpAoGBAIV3\\nwzZlxpXoIY7aPrsrnrr8/ox217pEvRo0GS2uuHppeYZpwfeflUotc3zqqaPUpNol\\n2NPnS8P7tXD5mMFcFRhsMb30PL5PiKbRrPoqMAwsbHgjI53x2f9W2fZ5qfHktIrS\\nAGfELa8ewIL4mBZoIxizxZRrZBZwxafvzHzxAi5dAoGBANLhsls9TR9K3Bozp3Ou\\nmxJheSqqVA4MDQsn/ZFIFWtlr5zVDU0kIYTmR80eLAQBGaJgH2ZDtG7bg0DF0JiD\\nMvc7bQWaxxRV/1pY1vKh0l7GJQBjyEaTnZ8MFaYkSPAUzBj5rlPlU3GL/fJdgSGb\\nfsAKbIWHs4ZlK9hTd16Gw3DW\\n-----END PRIVATE KEY-----\n"
+}
+
+# Google Drive API Key
+TEMP_GOOGLE_DRIVE_KEY_INFO = {
+  "type": "service_account",
+  "project_id": "ai-jd-cv-tool-new",
+  "private_key_id": "610ffbd618265ad2916d218bbfb58057ff43a2c2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDUuiqC4obNl9OB\\n+zJXJgeN3aqL0A/puvmxe7Nx6DJ+7GVODKMLxHduXYy6dfhjDu0MzhfVNYgbeOzU\\nuPRNn6IWFV7W0Bo4CeKNrPxNw6KxR1g8k2muyB7rXS4jpQJIVsIz1O+l6Ru2rme2\\noqu6UJMAI0SlcBq+fcoClx8n2VN3L+A2GYcAFQ30Idr9etKkGXpViiskmksoKwK4\\n7RLSSyN7hwrDnX4D8jgpcY7r1YUHjFNYjVpToqarDhFYiQjZZEvFumD9Hua/NAs3\\n4DjbLFQ0WO9IKX/nI3LeE/tLH2Qv0njEKxVcPRnaATTUNdkAE/lLyOn+pli+ehxI\\nlHGuVGdnAgMBAAECggEABGJmXRf9IhXI4SyWAW5XiM1OFuiDG9S5EXQIcmtA5RVR\\nT8VVz2x+LDxFB5Fec9fUdXIg63pxzidWk5dW28cvPFgX47aIQSPyccdR+PaG3jNS\\nHiwqk8JdhesMCkeCGUYDWZDw1YT31tpa75WWk4Cxxovtcbl1j1X2MfraYvyPPjBH\\nYZZ8OoJvJho+jxX/Wb/OIHJwFKdJlAmpgJjppHRC4z/GvxFuHs/LpHLi/NMRY4hW\\nYtkO1mUnt8JtGr5Pp92wU27gjdpWLOeKiNkBDqA4bXGY1iv+hiHXkRhFnZ4ASjJX\\nLPQv/GiHPQ9KznT4omI9l7Ix2wWXS4TOijJKnqMi+QKBgQD2Xj1Xo3QwVS0jxDYe\\n01EOPWP34LQytwWv8NZcZ/WWw3MsArcSgy1gvqLjgfLsIcxxZJl3uOdcPxjMpnq1\\nUqFL4Q4PpcYMDquV6+K2j1KAA9A7NRtoycY898LQ4+kwp8fyyxZhPHD/YhZrj2zX\\nQR+qsltdkf+Fjh8ySDXc6MqMXwKBgQDdCzvBI9EC60PP7itWBEATyBSOOG0HuYDx\\nTEpKV9VBy69eOJ/fG9AIPv6E11W9L6mUP4100/824W/ZimOJjrFParu51bD/HTZV\\nMXjLrnADezdUgJsmmaxmMz20LrlwSDo0Tb09X1302VBriXZ6YAevDGlHZ6lzKgSv\\nyg12dyqB+QKBgQCm/QdtEJBfdkxLUuIwEKF/GmNZD0h0m5NSRta0+Y3/62h0Kz71\\nYE5wpaZ4uIr0PJB7R2myOXUwFGB1zl2b628CpH/IYV+Uqpjo3GLlxM1xkaQhjYSP\\niTxB9NlqhyB25zJiwf7gV3xrzYtOyn9G45C4PX4qNRxR5RwGE+XWXz9y1wKBgG4r\\nYyToTQw/ZhUEh+TfSXCSkGwyA2WON44MkBptnISmmElFv6jbm9wASaq8CKe6UbLp\\n2f8YimM4CR9LskClNgp3EAmXUBhW3vWnKqWZ04popzMexjV+8Yd0+syPoqP9TKM\\nbH1iQtn+Ve7DHKHxquK8NNy59eLIVn2nHv6kdjNBAoGAfAfUNcQukO7V0PCNjS45\\n3KcJd786l+kQ6kvxywzz3+1Ukabkb4VcEaVJDOhy5lJXAlKZmJsnTdfKzHrud2r1\\nOErXD7K0rA/qTIaK++SQuvF21U34DQ7dexNFXoNRcA1HmiBOQNqZQG2juUzw8pd1\\nXcChMBJfQamFz+Lz0CYuHCk=\n"
+}
+
+# OpenAI API Key
+TEMP_OPENAI_API_KEY = "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"
+
+# Google Drive Reports Folder ID
+TEMP_GOOGLE_DRIVE_REPORTS_FOLDER_ID = "187pusW-uec4aTc-Icf-iOOy9JrwYUQgS"
+# --- END TEMPORARY HARDCODED SECRETS ---
+
+
+# --- Session State Initialization ---
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+if 'user_email' not in st.session_state:
+    st.session_state['user_email'] = None
+if 'user_uid' not in st.session_state:
+    st.session_state['user_uid'] = None
+if 'is_admin' not in st.session_state:
+    st.session_state['is_admin'] = False
+if 'login_mode' not in st.session_state: # New: Control login flow
+    st.session_state['login_mode'] = 'choose_role' # Start with role selection
+if 'is_admin_attempt' not in st.session_state: # New: Flag for current login attempt type
+    st.session_state['is_admin_attempt'] = False # Default to user login attempt
+if 'username' not in st.session_state:
+    st.session_state['username'] = None
+if 'has_set_username' not in st.session_state:
+    st.session_state['has_set_username'] = False
+if 'needs_username_setup' not in st.session_state: # Flag to explicitly trigger setup page
+    st.session_state['needs_username_setup'] = False
+if 'login_success' not in st.session_state:
+    st.session_state['login_success'] = False
+if 'current_admin_page' not in st.session_state:
+    st.session_state['current_admin_page'] = 'reports'
+
+
 # --- Firebase Initialization ---
 # Ensure only one app instance is initialized
 if not firebase_admin._apps:
     try:
-        # Load the Firebase service account key from Streamlit secrets
-        firebase_service_account_info = json.loads(st.secrets["SERVICE_ACCOUNT_KEY"])
-
-        cred = credentials.Certificate(firebase_service_account_info)
+        # Use the TEMPORARY hardcoded info for testing
+        cred = credentials.Certificate(TEMP_FIREBASE_SERVICE_ACCOUNT_INFO)
         initialize_app(cred)
         db = firestore.client()
-        st.success("Firebase initialized successfully.")
+        st.success("Firebase initialized successfully (using hardcoded keys for test).")
 
-    except KeyError:
-        st.error("Firebase SERVICE_ACCOUNT_KEY not found in Streamlit secrets! "
-                 "Please add your Firebase service account JSON content to your app's secrets "
-                 "on Streamlit Community Cloud under the key 'SERVICE_ACCOUNT_KEY'.")
-        st.stop()
-    except json.JSONDecodeError:
-        st.error("Firebase SERVICE_ACCOUNT_KEY secret content is not valid JSON. "
-                 "Please check the formatting in Streamlit secrets (especially newlines in private_key).")
-        st.stop()
     except Exception as e:
         st.error(f"An unexpected error occurred during Firebase initialization: {e}")
-        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' secret is valid.")
+        st.info("Please ensure your 'SERVICE_ACCOUNT_KEY' is valid and correctly formatted.")
         st.stop()
 else:
     db = firestore.client()
@@ -289,60 +328,31 @@ else:
 # --- Google Drive Configuration ---
 drive_service = None
 try:
-    # Load the Google Drive key from Streamlit secrets
-    google_drive_key_info = json.loads(st.secrets["GOOGLE_DRIVE_KEY"])
-
-    # Define the necessary scopes for Google Drive access
+    # Use the TEMPORARY hardcoded info for testing
     SCOPES = ['https://www.googleapis.com/auth/drive'] # Scope for full Drive access
-
-    # Create credentials from the service account info
-    drive_credentials = service_account.Credentials.from_service_account_info(google_drive_key_info, scopes=SCOPES)
-
-    # Build the Google Drive API service client
+    drive_credentials = service_account.Credentials.from_service_account_info(TEMP_GOOGLE_DRIVE_KEY_INFO, scopes=SCOPES)
     drive_service = build('drive', 'v3', credentials=drive_credentials)
-    st.success("Google Drive API initialized successfully.")
+    st.success("Google Drive API initialized successfully (using hardcoded keys for test).")
 
-except KeyError:
-    st.error("Google Drive GOOGLE_DRIVE_KEY not found in Streamlit secrets! "
-             "Please add your Google Drive service account JSON content to your app's secrets "
-             "on Streamlit Community Cloud under the key 'GOOGLE_DRIVE_KEY'.")
-    st.stop()
-except json.JSONDecodeError:
-    st.error("Google Drive GOOGLE_DRIVE_KEY secret content is not valid JSON. "
-             "Please check the formatting in Streamlit secrets (especially newlines in private_key).")
-    st.stop()
 except Exception as e:
     st.error(f"An unexpected error occurred during Google Drive initialization: {e}")
-    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' secret is valid and Google Drive API is enabled.")
+    st.info("Please ensure your 'GOOGLE_DRIVE_KEY' is valid and Google Drive API is enabled.")
     st.stop()
 
 # --- OpenAI API Key Setup ---
 openai_client = None
 try:
-    # Load the OpenAI API key from Streamlit secrets
-    openai_api_key = st.secrets["OPENAI_API_KEY"]
-    # Initialize the OpenAI client with the loaded API key
+    # Use the TEMPORARY hardcoded key for testing
+    openai_api_key = TEMP_OPENAI_API_KEY
     openai_client = OpenAI(api_key=openai_api_key)
-    st.success("OpenAI API key loaded successfully!")
+    st.success("OpenAI API key loaded successfully (using hardcoded key for test).")
 
-except KeyError:
-    st.error("OPENAI_API_KEY not found in Streamlit secrets! "
-             "Please add your OpenAI API key to your app's secrets "
-             "on Streamlit Community Cloud under the key 'OPENAI_API_KEY'.")
-    st.stop()
 except Exception as e:
     st.error(f"An unexpected error occurred during OpenAI API key setup: {e}")
     st.stop()
 
-# --- Google Drive Reports Folder ID (from secrets) ---
-GOOGLE_DRIVE_REPORTS_FOLDER_ID = None
-try:
-    GOOGLE_DRIVE_REPORTS_FOLDER_ID = st.secrets["GOOGLE_DRIVE_REPORTS_FOLDER_ID"]
-except KeyError:
-    st.error("GOOGLE_DRIVE_REPORTS_FOLDER_ID not found in Streamlit secrets! "
-             "Please add the ID of your Google Drive reports folder to your app's secrets "
-             "on Streamlit Community Cloud under the key 'GOOGLE_DRIVE_REPORTS_FOLDER_ID'.")
-    st.stop()
+# --- Google Drive Reports Folder ID (from hardcoded temp variable) ---
+GOOGLE_DRIVE_REPORTS_FOLDER_ID = TEMP_GOOGLE_DRIVE_REPORTS_FOLDER_ID
 
 
 # --- Utility Functions ---
@@ -903,7 +913,7 @@ st.markdown(
         left: 0;
         width: 100%;
         text-align: center;
-        color: #FF8C00 !important; /* Orange text for footer - IMPORTANT for visibility */
+        color: #4CAF50 !important; /* Green text for footer */
         padding: 10px;
         background-color: #FFFFFF; /* Match page background */
         font-size: 0.8em;
